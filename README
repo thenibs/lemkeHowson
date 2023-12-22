@@ -1,0 +1,122 @@
+CMPUT 403 Fall 2023
+Final Project
+Nibras Alam
+
+Algorithm Description
+The Lemke-Howson algorithm is a pivotal method for finding Nash equilibria in finite
+games. The algorithm traverses the best response polytopes of the game by pivoting
+much like the simplex method in linear programming. However, instead of searching for
+optimal solutions, it seeks equilibrium points where players' strategies form a mutually
+best response against each other. 
+
+
+O() Running Time Bounds
+Some resources state the running time to be around O(n^7), while others state O(2^max(r,c)).
+It was difficult to determine the running time of my solution because there wern't many large
+and meaningful non-degenerate matrices that I could compare to smaller matrices. I believe it
+finds solutions around the same quickness as smaller sized matrices because it just finds one
+of many equilibria. Most of my larger test matrices are based on smaller ones since I know they
+have a solution. I would say that the running time in theory should be closer to the O(2^max(r,c)),
+since in the worst case every row might get visited during the pivot attempts.
+
+
+Resources Used
+Paper by original authors of the algorithm
+    ● https://www1.cmc.edu/pages/faculty/MONeill/math188/papers/lemkehowson.pdf
+Helpful videos describing and visualizing the algorithm
+    ● https://www.youtube.com/watch?v=i3Ag8Dw0LZg
+    ● https://www.youtube.com/watch?v=DILDPuwsByk
+Paper exploring the experimental and algorithmic runtime
+    ● https://arxiv.org/pdf/0811.3247.pdf
+Python Implementation and Documentation
+    ● https://github.com/s3rvac/lemke-howson/blob/master/doc/documentation.tex
+Lecture Slides on the Topic and Tableaux Method
+    ● https://is.muni.cz/el/1433/podzim2014/IA168/um/lecture5.pdf
+Detailed Course Document on the Topic and Tableaux Method
+    ● https://citeseerx.ist.psu.edu/viewdoc/download;jsessionid=AE0EBA82161430FD61B8915771E19649?doi=10.1.1.110.770&rep=rep1&type=pdf
+Online Calculator to Verify Solutions
+    ● https://cgi.csc.liv.ac.uk/~rahul/bimatrix_solver/
+Generate Random Matrices
+    ● https://onlinetools.com/math/generate-random-matrix
+
+
+Compilation Instructions
+Use make all to create the "lemkeHowson" executable. It is easiest to use this executable
+with a text file ("./lemkeHowson < test1.txt). This text file should have the number
+of rows, then number of columns, followed by the 2 matrices (several are provided in tests/).
+
+A "testLemke" executable will also be created. Running this using "./testLemke" will run
+the test suite.
+
+
+Makefile Targets
+● make all
+    - This will build both targets - the main executable and the test executable
+● make lemkeHowson
+    - This will create an executable "lemkeHowson" which reads in the 2 dimensions
+        followed by the matrices from standard input.
+● make testLemke
+    - This will create an executable "testLemke" which contains the test sutie.
+● make clean
+    - This will clean all object and executable files
+
+
+Test Description
+The test suite runs the algorithm on several different test files printing the algorithm
+output versus the expected output (verified using online calculator). It runs each test 10
+times to get an average of the execution time. It will output the test file name, the program
+output (both matrices and the equilibria), the average running time across 10 runs, and the
+size / running times of all tests.
+
+The tests include a variety of sizes (ranging up to 15x15), different shaped matrices, and some
+include negative numbers.
+test1.txt: 2x3 matrix from the documentation
+test2.txt: 1x1 matrix with negative values
+test3.txt: 2x2 matrix
+test4.txt: 4x4 matrix
+test5.txt: 5x5 matrix
+test6.txt: 6x6 matrix
+test7.txt: 14x14 matrix
+test8.txt: 15x15 matrix with large values
+test9.txt: 5x15 matrix
+test10.txt: 6x15 matrix
+
+Note: It was difficult to generate non-degenerate testcases for larger matrices, so in the case
+where there were multiple solutions, I considered it to be a success if the algorithm matched any
+of the multiple solutions (from the online calculator). I was unable to really test large values
+for the entries of the matrix as a result as well
+
+
+Assumptions
+● Requires 2 input matrices of matching dimensions representing a bi-matrix strategy payoff game
+● Requires the game/matrix to be non-degenerate with a unique best response
+
+
+Summary of Files
+● main.cpp
+    - Contains the entire codebase with input/output, algorithm, and extra Matrix class
+    - Didn't consider it complex enough to bother seperating Matrix into its own file
+● test.cpp
+    - Contains the suite of tests to run the algorithm on
+● tests/
+    - A directory containing several tests (testX.txt where X is the test #)
+● Makefile
+● README
+
+
+Output Interpretation
+The output of the Lemke-Howson algorithm is a pair of strategy distributions for each player
+that constitute a Nash Equilibrium. Each distribution indicates the probability with which the
+player should play each of their strategies. In this equilibrium state, neither player can 
+unilaterally change their strategy mix to achieve a better payoff, assuming the other player's
+strategy remains unchanged. The interpretation of this output is that it represents a stable
+strategy set for both players, where the expected payoff is maximized given the opponent's strategy.
+
+
+Additional Notes
+I struggled heavily on figuring out the actual implementation side of
+the project, as the majority of papers and resources focused on the
+theoretical side with minimal direction. I ended up looking for specific
+lectures and a python implementation's documentation (and code at points).
+
+Grade Received (14/15)
